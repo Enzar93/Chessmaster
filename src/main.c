@@ -2,5 +2,6 @@
 
 int main()
 {
+	lunch_chessgame();
 	return 0;
 }

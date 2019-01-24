@@ -15,7 +15,8 @@ RM		= rm -f
 
 NAME		= chessmaster
 
-SRCS		= src/main.c
+SRCS		= src/main.c		\
+			  src/game/chessboard.c
 
 OBJS		= $(SRCS:.c=.o)
 
