@@ -5,19 +5,18 @@
 
 void put_chessman(t_map **map)
 {
-    for (size_t i = 0; i < 8; i++)
-    {
-        for (size_t j = 0; j < 8; j++)
-        {
-            map[i][j].color = (i % 2 == 0) ? BLACK : WHITE;
-            map[i][j].is_empty = true;
-            if (i == 0 || i == 7 || i == 1 || i == 6)
-            {
-                map[i][j].chessman = malloc(sizeof(t_chessman));
-                if (map[i][j].chessman == NULL)
-                    errx(84, "chessmaster: allocation error\n");
-                map[i][j].chessman->color = (i == 0 || i == 1) ? BLACK : WHITE;
-                map[i][j].chessman->type = (i == 1) ? PAWN : KING;
+	for (size_t i = 0; i < 8; i++)
+	{
+		for (size_t j = 0; j < 8; j++)
+		{
+			map[i][j].color = (i % 2 == 0) ? BLACK : WHITE;
+			map[i][j].is_empty = true;
+			if (i == 0 || i == 7 || i == 1 || i == 6)
+			{
+				map[i][j].chessman = malloc(sizeof(t_chessman));
+				if (map[i][j].chessman == NULL)
+					errx(84, "chessmaster: allocation error\n");
+				map[i][j].chessman->color = (i == 0 || i == 1) ? BLACK : WHITE;
                 if (j == 0 || j == 7)
                     map[i][j].chessman->type = ROOK;
                 if (j == 1 || j == 6)
@@ -28,10 +27,12 @@ void put_chessman(t_map **map)
                     map[i][j].chessman->type = KING;
                 if (j == 4)
                     map[i][j].chessman->type = QUEEN;
+                if (i == 1 || i == 6)
+                    map[i][j].chessman->type = PAWN;
                 map[i][j].is_empty = false;
             }
-        }
-    }
+		}
+	}
 }
 
 static void display_map(t_map **map)
