@@ -17,7 +17,7 @@ NAME		= chessmaster
 
 SRCS		= src/main.c			\
 		  src/game/chessboard.c		\
-		  src/game/chessman/pawn.c
+		  src/game/chessman/rook.c
 
 OBJS		= $(SRCS:.c=.o)
 
