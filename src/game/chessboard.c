@@ -90,6 +90,6 @@ int lunch_chessgame()
 
     put_chessman(map);
     display_map(map);
-    map[0][0].chessman->move(map);
+    map[0][0].chessman->move(map, 0, 0);
     return (0);
 }
