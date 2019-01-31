@@ -11,6 +11,7 @@ void put_chessman(t_map **map)
 		for (size_t j = 0; j < 8; j++)
 		{
 			map[i][j].color = (i % 2 == 0) ? BLACK : WHITE;
+            map[i][j].target = NONE;
 			map[i][j].is_empty = true;
 			if (i == 0 || i == 7 || i == 1 || i == 6)
 			{
@@ -69,6 +70,26 @@ static void display_map(t_map **map)
 
 }
 
+static void display_target(t_map **map)
+{
+
+    for(size_t i = 0; i < 8; i++)
+    {
+
+        for(size_t j = 0; j < 8; j++)
+        {
+            if (map[i][j].target == RED)
+                printf("R");
+            else if (map[i][j].target == GREEN)
+                printf("G");
+            else
+                printf("N");
+        }
+        printf("\n");
+
+    }
+}
+
 t_map **init_map()
 {
     t_map **map = malloc(sizeof(t_map *) * 8);
@@ -90,6 +111,9 @@ int lunch_chessgame()
 
     put_chessman(map);
     display_map(map);
+    map[1][0].is_empty = 1;
     map[0][0].chessman->move(map, 0, 0);
+    printf("\n\n");
+    display_target(map);
     return (0);
 }
