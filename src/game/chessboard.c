@@ -29,10 +29,14 @@ void put_chessman(t_map **map)
 					map[i][j].chessman->type = BIGSHOP;
                     map[i][j].chessman->move = &move_bigshop;
                 }
-				if (j == 3)
+				if (j == 3) {
 					map[i][j].chessman->type = KING;
-				if (j == 4)
+                    map[i][j].chessman->move = &move_king;
+                }
+				if (j == 4) {
 					map[i][j].chessman->type = QUEEN;
+                    map[i][j].chessman->move = &move_queen;
+                }
 				if (i == 1 || i == 6)
 					map[i][j].chessman->type = PAWN;
 				map[i][j].is_empty = false;
@@ -115,11 +119,13 @@ int lunch_chessgame()
     display_map(map);
     map[1][0].is_empty = 1;
     map[1][3].is_empty = 1;
+    map[1][4].is_empty = 1;
     printf("\n\n");
 
     display_map(map);
-    map[0][2].chessman->move(map, 0, 2);
-    map[0][0].chessman->move(map, 0, 0);
+    //map[0][2].chessman->move(map, 0, 2);
+    //map[0][3].chessman->move(map, 0, 3);
+    //map[0][4].chessman->move(map, 0, 4);
     printf("\n\n");
     display_target(map);
     return (0);

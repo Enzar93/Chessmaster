@@ -15,10 +15,12 @@ RM		= rm -f
 
 NAME		= chessmaster
 
-SRCS		= src/main.c				\
-		  	  src/game/chessboard.c		\
-		  	  src/game/chessman/rook.c	\
-			  src/game/chessman/bigshop.c
+SRCS		= src/main.c					\
+		  	  src/game/chessboard.c			\
+		  	  src/game/chessman/rook.c		\
+			  src/game/chessman/bigshop.c	\
+			  src/game/chessman/queen.c		\
+			  src/game/chessman/king.c
 
 OBJS		= $(SRCS:.c=.o)
 
