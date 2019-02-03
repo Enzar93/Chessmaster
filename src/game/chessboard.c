@@ -41,6 +41,7 @@ void put_chessman(t_map **map)
                 }
 				if (i == 1 || i == 6)
 					map[i][j].chessman->type = PAWN;
+                    map[i][j].chessman->move = &move_pawn;
 				map[i][j].is_empty = false;
 			}
 		}
