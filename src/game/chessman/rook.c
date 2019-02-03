@@ -24,7 +24,7 @@ void move_rook(t_map **map, int x, int y)
 		else
 			map[x][j].target = GREEN;
 	}
-	for (int j = y - 1; j > 0; j--)
+	for (int j = y - 1; j >= 0; j--)
 	{
 		if (!map[x][j].is_empty)
 		{
@@ -54,7 +54,7 @@ void move_rook(t_map **map, int x, int y)
 		else
 			map[i][y].target = GREEN;
 	}
-	for (int i = x - 1; i > 0; i--)
+	for (int i = x - 1; i >= 0; i--)
 	{
 		if (!map[i][y].is_empty)
 		{
