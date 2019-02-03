@@ -21,6 +21,7 @@ SRCS		= src/main.c					\
 			  src/game/chessman/bigshop.c	\
 			  src/game/chessman/queen.c		\
 			  src/game/chessman/king.c		\
+			  src/game/chessman/pawn.c		\
 			  src/game/chessman/knight.c
 
 OBJS		= $(SRCS:.c=.o)
