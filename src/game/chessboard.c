@@ -127,8 +127,8 @@ int lunch_chessgame()
 
     display_map(map);
     //map[0][2].chessman->move(map, 0, 2);
-    //map[0][3].chessman->move(map, 0, 3);
-    map[0][1].chessman->move(map, 0, 1);
+    map[0][3].chessman->move(map, 0, 3);
+    map[1][2].chessman->move(map, 1, 2);
     printf("\n\n");
     display_target(map);
     return (0);
