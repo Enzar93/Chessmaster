@@ -5,11 +5,11 @@
 ## makefile
 ##
 
-CFLAGS		= -W -Wall -Wextra -Werror -g3 -std=c99
+CFLAGS		= -W -Wall -Wextra -g3 -std=c99
 
 CPPFLAGS	= -I./include
 
-CC		= gcc `pkg-config --libs sdl` -lSDL_image -lm
+CC		= gcc `pkg-config --libs sdl` -lSDL2 -lSDL2_image -lm
 
 RM		= rm -f
 
@@ -22,7 +22,8 @@ SRCS		= src/main.c					\
 			  src/game/chessman/queen.c		\
 			  src/game/chessman/king.c		\
 			  src/game/chessman/pawn.c		\
-			  src/game/chessman/knight.c
+			  src/game/chessman/knight.c	\
+			  src/display/display.c
 
 OBJS		= $(SRCS:.c=.o)
 

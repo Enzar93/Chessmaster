@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "chessmaster.h"
 #include "rook.h"
+#include "display.h"
 
 void put_chessman(t_map **map)
 {
@@ -39,9 +40,10 @@ void put_chessman(t_map **map)
 					map[i][j].chessman->type = QUEEN;
                     map[i][j].chessman->move = &move_queen;
                 }
-				if (i == 1 || i == 6)
+				if (i == 1 || i == 6) {
 					map[i][j].chessman->type = PAWN;
                     map[i][j].chessman->move = &move_pawn;
+                }
 				map[i][j].is_empty = false;
 			}
 		}
@@ -81,7 +83,6 @@ static void display_map(t_map **map)
 
 static void display_target(t_map **map)
 {
-
     for(size_t i = 0; i < 8; i++)
     {
 
@@ -95,7 +96,6 @@ static void display_target(t_map **map)
                 printf("N");
         }
         printf("\n");
-
     }
 }
 
@@ -117,20 +117,59 @@ t_map **init_map()
 int lunch_chessgame()
 {
     t_map **map = init_map();
+    int quit = 0;
 
     put_chessman(map);
     display_map(map);
-    map[1][0].is_empty = 1;
-    map[1][3].is_empty = 1;
-    map[1][4].is_empty = 1;
-    map[1][1].is_empty = 1;
-    printf("\n\n");
-
-    display_map(map);
-    //map[0][2].chessman->move(map, 0, 2);
-    map[0][3].chessman->move(map, 0, 3);
-    map[1][2].chessman->move(map, 1, 2);
-    printf("\n\n");
+    printf("-2");
+    fprintf(stderr, "-1");
     display_target(map);
+    display_chessmaster();
+    while (quit == 0)
+    {
+        DrawChessBoard(renderer, map);
+        fprintf(stderr, "3");
+        SDL_Event event;
+        while(SDL_PollEvent(&event) != 0)
+        {
+            fprintf(stderr, "boucle");
+            if ( event.type == SDL_QUIT )
+                quit = true;
+            if ( event.type == SDL_KEYDOWN )
+            if ( event.key.keysym.sym == SDLK_ESCAPE )
+                quit = true;
+            if (event.type == SDL_QUIT ||
+                    (event.type == SDL_WINDOWEVENT &&
+                        event.window.event == SDL_WINDOWEVENT_CLOSE))
+                        {
+                        quit = true;
+                        fprintf(stderr, "echap");
+                        }
+        }
+        if (quit)
+        {
+            SDL_Quit();
+            break;
+        }
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(200);
+    }
+    SDL_Quit();
     return (0);
 }
+
+
+// map[1][0].is_empty = 1;
+    // map[1][3].is_empty = 1;
+    // map[1][4].is_empty = 1;
+    // map[1][1].is_empty = 1;
+    // printf("\n\n");
+
+    // display_map(map);
+    // //map[0][2].chessman->move(map, 0, 2);
+    // map[0][3].chessman->move(map, 0, 3);
+    // map[1][2].chessman->move(map, 1, 2);
+    // printf("\n\n");
+    // display_target(map);
+    // display_chessmaster();
