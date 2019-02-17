@@ -121,39 +121,21 @@ int lunch_chessgame()
 
     put_chessman(map);
     display_map(map);
-    printf("-2");
-    fprintf(stderr, "-1");
-    display_target(map);
-    display_chessmaster();
+    init_screen();
     while (quit == 0)
     {
-        DrawChessBoard(renderer, map);
-        fprintf(stderr, "3");
         SDL_Event event;
-        while(SDL_PollEvent(&event) != 0)
-        {
-            fprintf(stderr, "boucle");
-            if ( event.type == SDL_QUIT )
-                quit = true;
-            if ( event.type == SDL_KEYDOWN )
+        SDL_PollEvent(&event);
+        while(SDL_PollEvent(&event)) {
             if ( event.key.keysym.sym == SDLK_ESCAPE )
                 quit = true;
             if (event.type == SDL_QUIT ||
                     (event.type == SDL_WINDOWEVENT &&
                         event.window.event == SDL_WINDOWEVENT_CLOSE))
-                        {
                         quit = true;
-                        fprintf(stderr, "echap");
-                        }
         }
-        if (quit)
-        {
-            SDL_Quit();
-            break;
-        }
-        SDL_RenderClear(renderer);
-        SDL_RenderPresent(renderer);
-        SDL_Delay(200);
+        DrawChessBoard(renderer, map);
+        SDL_Delay(2000);
     }
     SDL_Quit();
     return (0);

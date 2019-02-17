@@ -1,53 +1,54 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <err.h>
+#include <SDL2/SDL.h>
+#include "chessmaster.h"
 #include "display.h"
-
-
-int done;
 
 void DrawChessBoard(SDL_Renderer *renderer, t_map **map)
 {
-    SDL_Rect rect, darea;
-
-    // Get the Size of drawing surface
-    SDL_RenderGetViewport(renderer, &darea);
+    size_t posx = 0;
+    size_t posy = 0;
     for (size_t i = 0; i < 8; i++)
     {
         for (size_t j = 0; j < 8; j++)
         {
-          SDL_SetRenderDrawColor(renderer, 10, 20, 30, 0);
-          rect.w = darea.w/8;
-          rect.h = darea.h/8;
-          rect.x = j * rect.w;
-          rect.y = i * rect.h;
-          SDL_RenderFillRect(renderer, &rect);
+            if (!map[i][j].is_empty && map[i][j].color == BLACK)
+            {
+                SDL_Rect rect = {posx, posy, 280, 120};
+                SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+                SDL_RenderFillRect(renderer, &rect);
+                SDL_RenderPresent(renderer);
+                fprintf(stderr, "eeee");
+            }
+            posx += 240;
         }
+        posy += 180;
     }
-  SDL_UpdateWindowSurface(pWindow);
 }
 
-void display_chessmaster()
+void init_screen()
 {
-    printf("1");
      /* Initialisation simple */
+SDL_Renderer *renderer;
      if(SDL_Init(SDL_INIT_VIDEO) == -1)
         errx(1,"Could not initialize SDL: %s.\n", SDL_GetError());
     /* Création de la fenêtre */
-    printf("1");
     pWindow = SDL_CreateWindow(
         "Chessmaster",                     // window title
-        SDL_WINDOWPOS_UNDEFINED,           // initial x position
-        SDL_WINDOWPOS_UNDEFINED,           // initial y position
-        1080,                               // width, in pixels
-        720,                               // height, in pixels
-        SDL_WINDOW_OPENGL                  // flags - see below
+        SDL_WINDOWPOS_CENTERED,           // initial x position
+        SDL_WINDOWPOS_CENTERED,           // initial y position
+        1920,                               // width, in pixels
+        1080,                               // height, in pixels
+        0
     );
-    printf("1");
     if (pWindow == NULL)
         errx(84, "Could not create window: %s\n", SDL_GetError());
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    printf("2");
+    renderer =  SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent( renderer);
+    SDL_Delay(5000);
 }
 
 

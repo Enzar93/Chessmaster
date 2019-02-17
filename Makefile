@@ -5,11 +5,12 @@
 ## makefile
 ##
 
-CFLAGS		= -W -Wall -Wextra -g3 -std=c99
+CFLAGS		= -W -Wall -Wextra
 
 CPPFLAGS	= -I./include
 
-CC		= gcc `pkg-config --libs sdl` -lSDL2 -lSDL2_image -lm
+CC		= clang -lSDL2 `sdl-config --cflags --libs` -lSDL_image
+
 
 RM		= rm -f
 

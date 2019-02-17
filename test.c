@@ -1,88 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <SDL2/SDL.h>
 
-#include "SDL2/SDL.h"
-
-/* This function may run in a separate event thread */
-int FilterEvents(const SDL_Event *event) {
-    static int boycott = 1;
-
-    /* This quit event signals the closing of the window */
-    if ( (event->type == SDL_QUIT) && boycott ) {
-        printf("Quit event filtered out -- try again.\n");
-        boycott = 0;
-        return(0);
-    }
-    if ( event->type == SDL_MOUSEMOTION ) {
-        printf("Mouse moved to (%d,%d)\n",
-                event->motion.x, event->motion.y);
-        return(0);    /* Drop it, we've handled it */
-    }
-    return(1);
-}
-
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    SDL_Event event;
+        SDL_Window* window;
+        SDL_Renderer* renderer;
 
-    /* Initialize the SDL library (starts the event loop) */
-    if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
-        fprintf(stderr,
-                "Couldn't initialize SDL: %s\n", SDL_GetError());
-        exit(1);
-    }
+        // Initialize SDL.
+        if (SDL_Init(SDL_INIT_VIDEO) < 0)
+                return 1;
 
-    /* Clean up on exit, exit on window close and interrupt */
-    atexit(SDL_Quit);
+        // Create the window where we will draw.
+        window = SDL_CreateWindow("SDL_RenderClear",
+                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                        512, 512,
+                        0);
 
-    /* Ignore key events */
-    SDL_EventState(SDL_KEYDOWN, SDL_IGNORE);
-    SDL_EventState(SDL_KEYUP, SDL_IGNORE);
+        // We must call SDL_CreateRenderer in order for draw calls to affect this window.
+        renderer = SDL_CreateRenderer(window, -1, 0);
 
-    /* Filter quit and mouse motion events */
-    SDL_SetEventFilter(FilterEvents);
+        // Select the color for drawing. It is set to red here.
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-    /* The mouse isn't much use unless we have a display for reference */
-    if ( SDL_SetVideoMode(640, 480, 8, 0) == NULL ) {
-        fprintf(stderr, "Couldn't set 640x480x8 video mode: %s\n",
-                        SDL_GetError());
-        exit(1);
-    }
+        // Clear the entire screen to our selected color.
+        SDL_RenderClear(renderer);
 
-    /* Loop waiting for ESC+Mouse_Button */
-    while ( SDL_WaitEvent(&event) >= 0 ) {
-        switch (event.type) {
-            case SDL_ACTIVEEVENT: {
-                if ( event.active.state & SDL_APPACTIVE ) {
-                    if ( event.active.gain ) {
-                        printf("App activated\n");
-                    } else {
-                        printf("App iconified\n");
-                    }
-                }
-            }
-            break;
-                    
-            case SDL_MOUSEBUTTONDOWN: {
-                Uint8 *keys;
+        // Up until now everything was drawn behind the scenes.
+        // This will show the new, red contents of the window.
+        SDL_RenderPresent(renderer);
 
-                keys = SDL_GetKeyState(NULL);
-                if ( keys[SDLK_ESCAPE] == SDL_PRESSED ) {
-                    printf("Bye bye...\n");
-                    exit(0);
-                }
-                printf("Mouse button pressed\n");
-            }
-            break;
+        // Give us time to see the window.
+        SDL_Delay(5000);
 
-            case SDL_QUIT: {
-                printf("Quit requested, quitting.\n");
-                exit(0);
-            }
-            break;
-        }
-    }
-    /* This should never happen */
-    printf("SDL_WaitEvent error: %s\n", SDL_GetError());
-    exit(1);
+        // Always be sure to clean up
+        SDL_Quit();
+        return 0;
 }
