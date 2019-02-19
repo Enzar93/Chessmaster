@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <err.h>
 #include <stdio.h>
+#include <SDL2/SDL.h>
 #include "chessmaster.h"
 #include "rook.h"
 #include "display.h"
@@ -11,7 +12,10 @@ void put_chessman(t_map **map)
 	{
 		for (size_t j = 0; j < 8; j++)
 		{
-			map[i][j].color = (i % 2 == 0) ? BLACK : WHITE;
+            if (i % 2 == 0)
+			    map[i][j].color = (j % 2 == 0) ? BLACK : WHITE;
+            else
+			    map[i][j].color = (j % 2 == 0) ? WHITE : BLACK;
             map[i][j].target = NONE;
 			map[i][j].is_empty = true;
 			if (i == 0 || i == 7 || i == 1 || i == 6)
@@ -122,20 +126,20 @@ int lunch_chessgame()
     put_chessman(map);
     display_map(map);
     init_screen();
+    load_images(map);
     while (quit == 0)
     {
         SDL_Event event;
         SDL_PollEvent(&event);
         while(SDL_PollEvent(&event)) {
-            if ( event.key.keysym.sym == SDLK_ESCAPE )
+            if (event.key.keysym.sym == SDLK_ESCAPE )
                 quit = true;
             if (event.type == SDL_QUIT ||
                     (event.type == SDL_WINDOWEVENT &&
                         event.window.event == SDL_WINDOWEVENT_CLOSE))
                         quit = true;
         }
-        DrawChessBoard(renderer, map);
-        SDL_Delay(2000);
+        DrawChessBoard(map);
     }
     SDL_Quit();
     return (0);

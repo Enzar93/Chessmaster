@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <SDL2/SDL_image.h>
 
 enum e_type {KING, QUEEN, ROOK, BIGSHOP, KNIGHT, PAWN};
 enum e_color {WHITE, BLACK};
@@ -23,6 +24,7 @@ struct s_chessman
     enum e_type type;
     enum e_color color;
     void (*move)(struct s_map **map, int x, int y);
+    SDL_Surface *image;
 };
 
 typedef struct s_chessman t_chessman;

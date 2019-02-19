@@ -9,8 +9,9 @@ CFLAGS		= -W -Wall -Wextra
 
 CPPFLAGS	= -I./include
 
-CC		= clang -lSDL2 `sdl-config --cflags --libs` -lSDL_image
+SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
 
+CC		= gcc
 
 RM		= rm -f
 
@@ -31,7 +32,7 @@ OBJS		= $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC)  $(OBJS) $(SDL_CFLAGS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)
