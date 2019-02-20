@@ -27,7 +27,7 @@ void load_images(t_map **map)
 	if(!black_king || !white_king || !black_pawn || !white_pawn || !black_queen ||
 	!white_queen || !black_rook || !white_rook || !black_bigshop || !white_bigshop || !black_knight || !white_knight)
 	{
-    	printf("Erreur de chargement de l'image : %s", SDL_GetError());
+    	printf("Error loading image : %s", SDL_GetError());
     	exit(84);
 	}
 	for (size_t i = 0; i < 8; i++)
@@ -52,6 +52,10 @@ void load_images(t_map **map)
 					map[i][j].chessman->image = black_queen;
 				else if (map[i][j].chessman->type == QUEEN && map[i][j].chessman->color == WHITE)
 					map[i][j].chessman->image = white_queen;
+				else if (map[i][j].chessman->type == KNIGHT && map[i][j].chessman->color == BLACK)
+					map[i][j].chessman->image = black_knight;
+				else if (map[i][j].chessman->type == KNIGHT && map[i][j].chessman->color == WHITE)
+					map[i][j].chessman->image = white_knight;
 				else if (map[i][j].chessman->type == ROOK && map[i][j].chessman->color == BLACK)
 					map[i][j].chessman->image = black_rook;
 				else if (map[i][j].chessman->type == ROOK && map[i][j].chessman->color == BLACK)
@@ -69,21 +73,34 @@ void DrawChessBoard(t_map **map)
 	size_t posx = 560;
 	size_t posy = 140;
 	SDL_Texture *texture;
+	SDL_Rect rect;
 
 	for (size_t i = 0; i < 8; i++)
 	{
 		for (size_t j = 0; j < 8; j++)
 		{
-			SDL_Rect rect = {posx, posy, 280, 120};
+			rect.x = posx;
+			rect.y = posy;
+			rect.w = 100;
+			rect.h = 100;
 			if (map[i][j].color == BLACK)
 				SDL_SetRenderDrawColor(renderer, 185, 93, 41, 255);
 			else
 				SDL_SetRenderDrawColor(renderer, 252, 246, 181, 255);
 			SDL_RenderFillRect(renderer, &rect);
+			if (map[i][j].target == RED)
+				SDL_SetRenderDrawColor(renderer, 255, 0, 0, 90);
+			if (map[i][j].target == GREEN)
+				SDL_SetRenderDrawColor(renderer, 0, 128, 0, 150);
+			SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+			SDL_RenderFillRect(renderer, &rect);
 			if (!map[i][j].is_empty) {
-				SDL_Rect dstrect = {posx, posy, 100, 100};
+				rect.x = posx;
+				rect.y = posy;
+				rect.w = 100;
+				rect.h = 100;
 				texture = SDL_CreateTextureFromSurface(renderer, map[i][j].chessman->image);
-				SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+				SDL_RenderCopy(renderer, texture, NULL, &rect);
 			}
 			SDL_RenderPresent(renderer);
 			posx += 100;

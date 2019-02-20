@@ -8,7 +8,6 @@
 void move_rook(t_map **map, int x, int y)
 {
 	enum e_color color = map[x][y].chessman->color;
-	printf("line :%d / col :%d\n", x, y);
 	for (int j = y + 1; j < 8; j++)
 	{
 		if (!map[x][j].is_empty)

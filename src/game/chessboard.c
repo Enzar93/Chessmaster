@@ -127,6 +127,11 @@ int lunch_chessgame()
     display_map(map);
     init_screen();
     load_images(map);
+    printf("%d\n", map[1][1].chessman->type);
+    map[1][0].is_empty = 1;
+    map[1][1].chessman->move(map, 1, 1);
+    display_target(map);
+    DrawChessBoard(map);
     while (quit == 0)
     {
         SDL_Event event;
@@ -139,7 +144,6 @@ int lunch_chessgame()
                         event.window.event == SDL_WINDOWEVENT_CLOSE))
                         quit = true;
         }
-        DrawChessBoard(map);
     }
     SDL_Quit();
     return (0);
@@ -154,8 +158,6 @@ int lunch_chessgame()
 
     // display_map(map);
     // //map[0][2].chessman->move(map, 0, 2);
-    // map[0][3].chessman->move(map, 0, 3);
     // map[1][2].chessman->move(map, 1, 2);
     // printf("\n\n");
-    // display_target(map);
     // display_chessmaster();
