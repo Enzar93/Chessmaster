@@ -68,6 +68,17 @@ void load_images(t_map **map)
 	}
 }
 
+void reset_target(t_map **map)
+{
+	for (size_t i = 0; i < 8; i++)
+	{
+		for (size_t j = 0; j < 8; j++)
+		{
+			map[i][j].target = NONE;
+		}
+	}
+}
+
 void DrawChessBoard(t_map **map)
 {
 	size_t posx = 560;

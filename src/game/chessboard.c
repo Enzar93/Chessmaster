@@ -6,7 +6,18 @@
 #include "rook.h"
 #include "display.h"
 
-void put_chessman(t_map **map)
+static void reset_target(t_map **map)
+{
+	for (size_t i = 0; i < 8; i++)
+	{
+		for (size_t j = 0; j < 8; j++)
+		{
+			map[i][j].target = NONE;
+		}
+	}
+}
+
+static void put_chessman(t_map **map)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
@@ -103,7 +114,7 @@ static void display_target(t_map **map)
     }
 }
 
-t_map **init_map()
+static t_map **init_map()
 {
     t_map **map = malloc(sizeof(t_map *) * 8);
 
@@ -127,9 +138,7 @@ int lunch_chessgame()
     display_map(map);
     init_screen();
     load_images(map);
-    printf("%d\n", map[1][1].chessman->type);
-    map[1][0].is_empty = 1;
-    map[1][1].chessman->move(map, 1, 1);
+    printf("\n");
     display_target(map);
     DrawChessBoard(map);
     while (quit == 0)
@@ -145,8 +154,9 @@ int lunch_chessgame()
                         quit = true;
         }
     }
+    reset_target(map);
     SDL_Quit();
-    return (0);
+    return 0;
 }
 
 
