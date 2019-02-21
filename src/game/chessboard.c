@@ -6,6 +6,26 @@
 #include "rook.h"
 #include "display.h"
 
+
+static void check_knight(t_map **map)
+{
+    map[1][0].is_empty = 1;
+    map[2][2] = map[6][0];
+    map[0][1].chessman->move(map, 0, 1);
+}
+
+static void check_pawn(t_map **map)
+{
+    map[2][1] = map[6][1];
+    map[1][0].chessman->move(map, 1, 0);
+}
+
+static void check_bigshop(t_map **map)
+{
+  map[4][4] = map[0][2];
+  map[4][4].chessman->move(map, 4, 4);
+}
+
 static void reset_target(t_map **map)
 {
 	for (size_t i = 0; i < 8; i++)
@@ -140,6 +160,7 @@ int lunch_chessgame()
     load_images(map);
     printf("\n");
     display_target(map);
+    check_pawn(map);
     DrawChessBoard(map);
     while (quit == 0)
     {
@@ -153,6 +174,7 @@ int lunch_chessgame()
                         event.window.event == SDL_WINDOWEVENT_CLOSE))
                         quit = true;
         }
+        SDL_Delay(1000);
     }
     reset_target(map);
     SDL_Quit();
