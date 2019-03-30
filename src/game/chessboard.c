@@ -6,26 +6,6 @@
 #include "rook.h"
 #include "display.h"
 
-
-static void check_knight(t_map **map)
-{
-    map[1][0].is_empty = 1;
-    map[2][2] = map[6][0];
-    map[0][1].chessman->move(map, 0, 1);
-}
-
-static void check_pawn(t_map **map)
-{
-    map[2][1] = map[6][1];
-    map[1][0].chessman->move(map, 1, 0);
-}
-
-static void check_bigshop(t_map **map)
-{
-  map[4][4] = map[0][2];
-  map[4][4].chessman->move(map, 4, 4);
-}
-
 static void reset_target(t_map **map)
 {
 	for (size_t i = 0; i < 8; i++)
@@ -85,6 +65,48 @@ static void put_chessman(t_map **map)
 	}
 }
 
+static void move_chessman(int x, int y, t_map **map)
+{
+
+}
+
+static void which_chessman(int x, int y, t_map **map)
+{
+    size_t chessposx = 0;
+    size_t chessposy = 0;
+    static int old_chessposx = -1;
+    static int old_chessposy = -1;
+
+    for (int starty = 560; starty + 100 < x; starty += 100)
+        chessposy += 1;
+    for (int startx = 140; startx + 100 < y; startx += 100)
+        chessposx += 1;
+    if (!map[chessposx][chessposy].is_empty && map[chessposx][chessposy].chessman->color == BLACK) {
+        reset_target(map);
+        map[chessposx][chessposy].chessman->move(map, chessposx, chessposy);
+        old_chessposx = chessposx;
+        old_chessposy = chessposy;
+    }
+    else if ((map[chessposx][chessposy].target == RED ||\
+    map[chessposx][chessposy].target == GREEN) && old_chessposx != -1) {
+        map[chessposx][chessposy].chessman = map[old_chessposx][old_chessposy].chessman;
+        map[chessposx][chessposy].is_empty = false;
+        map[old_chessposx][old_chessposy].is_empty = true;
+        map[old_chessposx][old_chessposy].chessman = NULL;
+        old_chessposx = -1;
+        old_chessposy = -1;
+        reset_target(map);
+    }
+    else
+    {
+        old_chessposx = -1;
+        old_chessposy = -1;
+        reset_target(map);
+    }
+    DrawChessBoard(map);
+    fprintf(stderr, "%lu %lu\n", chessposx, chessposy);
+}
+
 static void display_map(t_map **map)
 {
 
@@ -107,6 +129,7 @@ static void display_map(t_map **map)
                 if (map[i][j].chessman->type == KNIGHT)
                     printf("L");
                 if (map[i][j].chessman->type == BIGSHOP)
+
                     printf("F");
             }
         }
@@ -160,36 +183,23 @@ int lunch_chessgame()
     load_images(map);
     printf("\n");
     display_target(map);
-    check_pawn(map);
-    DrawChessBoard(map);
     while (quit == 0)
     {
         SDL_Event event;
         SDL_PollEvent(&event);
-        while(SDL_PollEvent(&event)) {
-            if (event.key.keysym.sym == SDLK_ESCAPE )
+        while (SDL_PollEvent(&event)) {
+            if (event.key.keysym.sym == SDLK_ESCAPE)
                 quit = true;
             if (event.type == SDL_QUIT ||
                     (event.type == SDL_WINDOWEVENT &&
                         event.window.event == SDL_WINDOWEVENT_CLOSE))
                         quit = true;
+            if (event.type == SDL_MOUSEBUTTONDOWN)
+                which_chessman(event.button.x, event.button.y, map);
         }
-        SDL_Delay(1000);
+        SDL_Delay(500);
+        DrawChessBoard(map);
     }
-    reset_target(map);
     SDL_Quit();
     return 0;
 }
-
-
-// map[1][0].is_empty = 1;
-    // map[1][3].is_empty = 1;
-    // map[1][4].is_empty = 1;
-    // map[1][1].is_empty = 1;
-    // printf("\n\n");
-
-    // display_map(map);
-    // //map[0][2].chessman->move(map, 0, 2);
-    // map[1][2].chessman->move(map, 1, 2);
-    // printf("\n\n");
-    // display_chessmaster();

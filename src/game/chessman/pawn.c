@@ -12,9 +12,9 @@ void move_pawn(t_map **map, int x, int y)
         map[x - 1][y - 1].target = RED;
     if (x - 1 >= 0 && y + 1 < 8 && !(map[x - 1][y + 1].is_empty) && map[x - 1][y + 1].chessman->color != color)
         map[x - 1][y + 1].target = RED;
-    if (x + 1 >= 0 && y - 1 < 8 && !(map[x + 1][y - 1].is_empty) && map[x + 1][y - 1].chessman->color != color)
+    if (x + 1 < 8 && y - 1 >= 0 && !(map[x + 1][y - 1].is_empty) && map[x + 1][y - 1].chessman->color != color)
         map[x + 1][y - 1].target = RED;
-    if (x + 1 >= 0 && y + 1 < 8 && !(map[x + 1][y + 1].is_empty) && map[x + 1][y + 1].chessman->color != color)
+    if (x + 1 < 8 && y + 1 < 8 && !(map[x + 1][y + 1].is_empty) && map[x + 1][y + 1].chessman->color != color)
         map[x + 1][y + 1].target = RED;
     if (color == BLACK)
     {
