@@ -66,6 +66,6 @@ void move_rook(t_map **map, int x, int y)
 				break;
 		}
 		else
-			map[x][y].target = GREEN;
+			map[i][y].target = GREEN;
 	}
 }

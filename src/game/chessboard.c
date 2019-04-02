@@ -6,7 +6,7 @@
 #include "rook.h"
 #include "display.h"
 
-static void reset_target(t_map **map)
+void reset_target(t_map **map)
 {
 	for (size_t i = 0; i < 8; i++)
 	{
@@ -65,96 +65,17 @@ static void put_chessman(t_map **map)
 	}
 }
 
-static void move_chessman(int x, int y, t_map **map)
-{
-
-}
-
 static void which_chessman(int x, int y, t_map **map)
 {
     size_t chessposx = 0;
     size_t chessposy = 0;
-    static int old_chessposx = -1;
-    static int old_chessposy = -1;
 
     for (int starty = 560; starty + 100 < x; starty += 100)
         chessposy += 1;
     for (int startx = 140; startx + 100 < y; startx += 100)
         chessposx += 1;
-    if (!map[chessposx][chessposy].is_empty && map[chessposx][chessposy].chessman->color == BLACK) {
-        reset_target(map);
-        map[chessposx][chessposy].chessman->move(map, chessposx, chessposy);
-        old_chessposx = chessposx;
-        old_chessposy = chessposy;
-    }
-    else if ((map[chessposx][chessposy].target == RED ||\
-    map[chessposx][chessposy].target == GREEN) && old_chessposx != -1) {
-        map[chessposx][chessposy].chessman = map[old_chessposx][old_chessposy].chessman;
-        map[chessposx][chessposy].is_empty = false;
-        map[old_chessposx][old_chessposy].is_empty = true;
-        map[old_chessposx][old_chessposy].chessman = NULL;
-        old_chessposx = -1;
-        old_chessposy = -1;
-        reset_target(map);
-    }
-    else
-    {
-        old_chessposx = -1;
-        old_chessposy = -1;
-        reset_target(map);
-    }
+    move_chessman(chessposx, chessposy, map);
     DrawChessBoard(map);
-    fprintf(stderr, "%lu %lu\n", chessposx, chessposy);
-}
-
-static void display_map(t_map **map)
-{
-
-    for(size_t i = 0; i < 8; i++)
-    {
-
-        for(size_t j = 0; j < 8; j++)
-        {
-            if (map[i][j].is_empty)
-                printf("*");
-            else {
-                if (map[i][j].chessman->type == PAWN)
-                    printf("P");
-                if (map[i][j].chessman->type == KING)
-                    printf("K");
-                if (map[i][j].chessman->type == ROOK)
-                    printf("T");
-                if (map[i][j].chessman->type == QUEEN)
-                    printf("Q");
-                if (map[i][j].chessman->type == KNIGHT)
-                    printf("L");
-                if (map[i][j].chessman->type == BIGSHOP)
-
-                    printf("F");
-            }
-        }
-        printf("\n");
-
-    }
-
-}
-
-static void display_target(t_map **map)
-{
-    for(size_t i = 0; i < 8; i++)
-    {
-
-        for(size_t j = 0; j < 8; j++)
-        {
-            if (map[i][j].target == RED)
-                printf("R");
-            else if (map[i][j].target == GREEN)
-                printf("G");
-            else
-                printf("N");
-        }
-        printf("\n");
-    }
 }
 
 static t_map **init_map()
@@ -178,11 +99,9 @@ int lunch_chessgame()
     int quit = 0;
 
     put_chessman(map);
-    display_map(map);
     init_screen();
     load_images(map);
-    printf("\n");
-    display_target(map);
+    DrawChessBoard(map);
     while (quit == 0)
     {
         SDL_Event event;
@@ -198,7 +117,6 @@ int lunch_chessgame()
                 which_chessman(event.button.x, event.button.y, map);
         }
         SDL_Delay(500);
-        DrawChessBoard(map);
     }
     SDL_Quit();
     return 0;

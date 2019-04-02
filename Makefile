@@ -9,7 +9,7 @@ CFLAGS		= -W -Wall -Wextra
 
 CPPFLAGS	= -I./include
 
-SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
+SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_ttf -lSDL2_image
 
 CC		= gcc
 
@@ -19,13 +19,14 @@ NAME		= chessmaster
 
 SRCS		= src/main.c					\
 		  	  src/game/chessboard.c			\
+			  src/game/rules.c				\
 		  	  src/game/chessman/rook.c		\
 			  src/game/chessman/bigshop.c	\
 			  src/game/chessman/queen.c		\
 			  src/game/chessman/king.c		\
 			  src/game/chessman/pawn.c		\
 			  src/game/chessman/knight.c	\
-			  src/display/display.c
+			  src/display/display.c			\
 
 OBJS		= $(SRCS:.c=.o)
 

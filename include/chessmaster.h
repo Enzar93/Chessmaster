@@ -30,5 +30,6 @@ struct s_chessman
 typedef struct s_chessman t_chessman;
 
 int lunch_chessgame();
+void move_chessman(int chessposx, int chessposy, t_map **map);
 
 #endif /* !CHEESMASTER_H_*/

@@ -3,12 +3,15 @@
 #include <err.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "chessmaster.h"
+#include "rook.h"
 #include "display.h"
 
 SDL_Window *pWindow;
 SDL_Renderer *renderer;
 SDL_Surface *surface;
+SDL_Surface *promotion;
 
 void load_images(t_map **map)
 {
@@ -24,6 +27,7 @@ void load_images(t_map **map)
 	SDL_Surface* white_bigshop = IMG_Load("src/display/img/white_bigshop.png");
 	SDL_Surface* black_knight = IMG_Load("src/display/img/black_knight.png");
 	SDL_Surface* white_knight = IMG_Load("src/display/img/white_knight.png");
+	promotion = IMG_Load("src/display/img/promotion.png");
 	if(!black_king || !white_king || !black_pawn || !white_pawn || !black_queen ||
 	!white_queen || !black_rook || !white_rook || !black_bigshop || !white_bigshop || !black_knight || !white_knight)
 	{
@@ -61,11 +65,60 @@ void load_images(t_map **map)
 				else if (map[i][j].chessman->type == ROOK && map[i][j].chessman->color == BLACK)
 					map[i][j].chessman->image = black_rook;
 				else
-
 					map[i][j].chessman->image = white_rook;
 			}
 		}
 	}
+}
+
+void pawn_transformation(t_chessman *pawn)
+{
+    int quit = 0;
+	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, promotion);
+	SDL_Rect rect = {100, 100, 300, 600};
+	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	SDL_RenderPresent(renderer);
+	SDL_UpdateWindowSurface(pWindow);
+    while (quit == 0)
+    {
+        SDL_Event event;
+        SDL_PollEvent(&event);
+        while (SDL_PollEvent(&event)) {
+            switch (event.key.keysym.scancode)
+            {
+                case SDL_SCANCODE_1:
+                    pawn->type = QUEEN;
+                    pawn->move = &move_queen;
+                    pawn->image = IMG_Load("src/display/img/black_queen.png");
+                    quit = 1;
+                    break;
+                case SDL_SCANCODE_2:
+                    pawn->type = ROOK;
+                    pawn->move = &move_rook;
+                    pawn->image = IMG_Load("src/display/img/black_rook.png");
+                    quit = 1;
+                    break;
+                case SDL_SCANCODE_3:
+                    pawn->type = BIGSHOP;
+                    pawn->move = &move_bigshop;
+                    pawn->image = IMG_Load("src/display/img/black_bigshop.png");
+                    quit = 1;
+                    break;
+                case SDL_SCANCODE_4:
+                    pawn->type = KNIGHT;
+                    pawn->move = &move_knight;
+                    pawn->image = IMG_Load("src/display/img/black_knight.png");
+                    quit = 1;
+                    break;
+                default:
+                    continue;
+            }
+        }
+        SDL_Delay(500);
+    }
+	SDL_DestroyTexture(texture);
+	SDL_SetRenderDrawColor(renderer, 255, 69, 0, 255);
+	SDL_RenderClear(renderer);
 }
 
 void DrawChessBoard(t_map **map)
@@ -128,6 +181,8 @@ void init_screen()
 		errx(84, "Could not create window: %s\n", SDL_GetError());
 	surface = SDL_GetWindowSurface(pWindow);
   	renderer = SDL_CreateSoftwareRenderer(surface);
+	if(TTF_Init() == -1)
+	    errx(84, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
 	if(renderer == NULL)
       exit(84);
 	SDL_SetRenderDrawColor(renderer, 255, 69, 0, 255);

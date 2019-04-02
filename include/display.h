@@ -6,5 +6,6 @@
 void load_images(t_map **map);
 void init_screen();
 void DrawChessBoard(t_map **map);
+void pawn_transformation(t_chessman *pawn);
 
 #endif /* !DISPLAY_H_*/
