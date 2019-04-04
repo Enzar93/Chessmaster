@@ -7,7 +7,7 @@ void move_king(t_map **map, int x, int y)
 {
     enum e_color color = map[x][y].chessman->color;
 
-    if (x + 1 < 8) {
+    if (x + 1 < 8 && map[x + 1][y].target != RED) {
         if (!map[x + 1][y].is_empty && map[x + 1][y].chessman->color != color)
             map[x + 1][y].target = RED;
         if (map[x + 1][y].is_empty)

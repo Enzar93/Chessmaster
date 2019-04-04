@@ -5,11 +5,11 @@
 ## makefile
 ##
 
-CFLAGS		= -W -Wall -Wextra
+CFLAGS		= -W -Wall -Wextra -g3
 
 CPPFLAGS	= -I./include
 
-SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_ttf -lSDL2_image
+SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
 
 CC		= gcc
 

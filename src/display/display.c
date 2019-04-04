@@ -3,7 +3,6 @@
 #include <err.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include "chessmaster.h"
 #include "rook.h"
 #include "display.h"
@@ -181,8 +180,6 @@ void init_screen()
 		errx(84, "Could not create window: %s\n", SDL_GetError());
 	surface = SDL_GetWindowSurface(pWindow);
   	renderer = SDL_CreateSoftwareRenderer(surface);
-	if(TTF_Init() == -1)
-	    errx(84, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
 	if(renderer == NULL)
       exit(84);
 	SDL_SetRenderDrawColor(renderer, 255, 69, 0, 255);

@@ -31,5 +31,6 @@ typedef struct s_chessman t_chessman;
 
 int lunch_chessgame();
 void move_chessman(int chessposx, int chessposy, t_map **map);
+bool is_mat(t_map **map, enum e_color color);
 
 #endif /* !CHEESMASTER_H_*/
