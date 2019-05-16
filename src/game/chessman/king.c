@@ -32,4 +32,28 @@ void move_king(t_map **map, int x, int y)
             map[x][y + 1].target = GREEN;
     }
 
+    if (x + 1 < 8 && y + 1 < 8 ) {
+        if (!map[x + 1][y + 1].is_empty && map[x + 1][y + 1].chessman->color != color)
+            map[x + 1][y + 1].target = RED;
+        if (map[x + 1][y + 1].is_empty)
+            map[x + 1][y + 1].target = GREEN;
+    }
+    if (x - 1 >= 0 && y + 1 < 8) {
+        if (!map[x - 1][y + 1].is_empty && map[x - 1][y + 1].chessman->color != color)
+            map[x - 1][y + 1].target = RED;
+        if (map[x - 1][y + 1].is_empty)
+            map[x - 1][y + 1].target = GREEN;
+    }
+    if (x - 1 >= 0 && y - 1 >= 0) {
+        if (!map[x - 1][y - 1].is_empty && map[x - 1][y - 1].chessman->color != color)
+            map[x - 1][y - 1].target = RED;
+        if (map[x - 1][y - 1].is_empty)
+            map[x - 1][y - 1].target = GREEN;
+    }
+    if (x + 1 < 8 && y - 1 >= 0) {
+        if (!map[x + 1][y - 1].is_empty && map[x + 1][y - 1].chessman->color != color)
+            map[x + 1][y - 1].target = RED;
+        if (map[x + 1][y - 1].is_empty)
+            map[x + 1][y - 1].target = GREEN;
+    }
 }

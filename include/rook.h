@@ -3,6 +3,8 @@
 
 #include "chessmaster.h"
 
+void swap(t_map *case1, t_map *case2);
+
 void move_rook(t_map **map, int x, int y);
 void move_bigshop(t_map **map, int x, int y);
 void move_queen(t_map **map, int x, int y);

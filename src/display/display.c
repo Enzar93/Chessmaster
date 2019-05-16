@@ -14,12 +14,12 @@ SDL_Surface *promotion;
 
 void load_images(t_map **map)
 {
-	SDL_Surface* black_king = IMG_Load("src/display/img/black_king.png");
-	SDL_Surface* white_king = IMG_Load("src/display/img/white_king.png");
+	SDL_Surface* black_king = IMG_Load("src/display/img/black_queen.png");
+	SDL_Surface* white_king = IMG_Load("src/display/img/white_queen.png");
 	SDL_Surface* black_pawn = IMG_Load("src/display/img/black_pawn.png");
 	SDL_Surface* white_pawn = IMG_Load("src/display/img/white_pawn.png");
-	SDL_Surface* black_queen = IMG_Load("src/display/img/black_queen.png");
-	SDL_Surface* white_queen = IMG_Load("src/display/img/white_queen.png");
+	SDL_Surface* black_queen = IMG_Load("src/display/img/black_king.png");
+	SDL_Surface* white_queen = IMG_Load("src/display/img/white_king.png");
 	SDL_Surface* black_rook = IMG_Load("src/display/img/black_rook.png");
 	SDL_Surface* white_rook = IMG_Load("src/display/img/white_rook.png");
 	SDL_Surface* black_bigshop = IMG_Load("src/display/img/black_bigshop.png");
@@ -73,7 +73,7 @@ void load_images(t_map **map)
 void pawn_transformation(t_chessman *pawn)
 {
     int quit = 0;
-	SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, promotion);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, promotion);
 	SDL_Rect rect = {100, 100, 300, 600};
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_RenderPresent(renderer);

@@ -7,64 +7,86 @@
 void move_bigshop(t_map **map, int x, int y)
 {
 	enum e_color color = map[x][y].chessman->color;
-	for (int i = x + 1, j = y + 1; j < 8 && i < 8; j++, i++)
+	bool stock;
+	bool stop = false;
+
+	for (int i = x + 1, j = y + 1; j < 8 && i < 8 && stop == false; j++, i++)
 	{
-		if (!map[i][j].is_empty)
-		{
-			if (map[i][j].chessman->color != color)
+		swap(&map[x][y], &map[i][j]);
+		stock = map[x][y].is_empty;
+		map[x][y].is_empty = true;
+		if (!is_mat(map, color)) {
+            map[x][y].is_empty = stock;
+			if (!map[x][y].is_empty)
 			{
-				map[i][j].target = RED;
-				break;
+				if (map[x][y].chessman->color != color)
+					map[x][y].target = RED;
+				stop = true;
 			}
 			else
-				break;
+				map[x][y].target = GREEN;
 		}
-		else
-			map[i][j].target = GREEN;
+		map[x][y].is_empty = stock;
+		swap(&map[x][y], &map[i][j]);
 	}
-	for (int i = x - 1, j = y + 1; j < 8 && i >= 0; j++, i--)
+	stop = false;
+	for (int i = x - 1, j = y + 1; j < 8 && i >= 0 && stop == false; j++, i--)
 	{
-		if (!map[i][j].is_empty)
-		{
-			if (map[i][j].chessman->color != color)
+		swap(&map[x][y], &map[i][j]);
+		stock = map[x][y].is_empty;
+		map[x][y].is_empty = true;
+		if (!is_mat(map, color)) {
+            map[x][y].is_empty = stock;
+			if (!map[x][y].is_empty)
 			{
-				map[i][j].target = RED;
-				break;
+				if (map[x][y].chessman->color != color)
+					map[x][y].target = RED;
+				stop = true;
 			}
 			else
-				break;
+				map[x][y].target = GREEN;
 		}
-		else
-			map[i][j].target = GREEN;
+		map[x][y].is_empty = stock;
+		swap(&map[x][y], &map[i][j]);
 	}
-	for (int i = x + 1, j = y - 1; j >= 0 && i < 8; j--, i++)
+	stop = false;
+	for (int i = x + 1, j = y - 1; j >= 0 && i < 8 && stop == false; j--, i++)
 	{
-		if (map[i][j].is_empty == false)
-		{
-			if (map[i][j].chessman->color != color)
+		swap(&map[x][y], &map[i][j]);
+		stock = map[x][y].is_empty;
+		map[x][y].is_empty = true;
+		if (!is_mat(map, color)) {
+            map[x][y].is_empty = stock;
+			if (!map[x][y].is_empty)
 			{
-				map[i][j].target = RED;
-				break;
+				if (map[x][y].chessman->color != color)
+					map[x][y].target = RED;
+				stop = true;
 			}
 			else
-				break;
+				map[x][y].target = GREEN;
 		}
-		else
-			map[i][j].target = GREEN;
+		map[x][y].is_empty = stock;
+		swap(&map[x][y], &map[i][j]);
 	}
-	for (int i = x - 1, j = y - 1; j >= 0 && i >= 0; j--, i--)
+	stop = false;
+	for (int i = x - 1, j = y - 1; j >= 0 && i >= 0 && stop == false; j--, i--)
 	{
-		if (!map[i][j].is_empty)
-		{
-			if (map[i][j].chessman->color != color)
+		swap(&map[x][y], &map[i][j]);
+		stock = map[x][y].is_empty;
+		map[x][y].is_empty = true;
+		if (!is_mat(map, color)) {
+            map[x][y].is_empty = stock;
+			if (!map[x][y].is_empty)
 			{
-				map[i][j].target = RED;
-				break;
+				if (map[x][y].chessman->color != color)
+					map[x][y].target = RED;
+				stop = true;
 			}
 			else
-				break;
+				map[x][y].target = GREEN;
 		}
-		else
-			map[i][j].target = GREEN;
+		map[x][y].is_empty = stock;
+		swap(&map[x][y], &map[i][j]);
 	}
 }

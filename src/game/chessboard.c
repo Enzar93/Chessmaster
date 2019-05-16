@@ -37,26 +37,32 @@ static void put_chessman(t_map **map)
 				map[i][j].chessman->color = (i == 0 || i == 1) ? BLACK : WHITE;
 				if (j == 0 || j == 7) {
 					map[i][j].chessman->type = ROOK;
+                    map[i][j].chessman->cost = 50;
 					map[i][j].chessman->move = &move_rook;
 				}
 				if (j == 1 || j == 6) {
 					map[i][j].chessman->type = KNIGHT;
+                    map[i][j].chessman->cost = 30;
                     map[i][j].chessman->move = &move_knight;
                 }
 				if (j == 2 || j == 5) {
 					map[i][j].chessman->type = BIGSHOP;
+                    map[i][j].chessman->cost = 30;
                     map[i][j].chessman->move = &move_bigshop;
                 }
 				if (j == 3) {
-					map[i][j].chessman->type = KING;
-                    map[i][j].chessman->move = &move_king;
+					map[i][j].chessman->type = QUEEN;
+                    map[i][j].chessman->cost = 90;
+                    map[i][j].chessman->move = &move_queen;
                 }
 				if (j == 4) {
-					map[i][j].chessman->type = QUEEN;
-                    map[i][j].chessman->move = &move_queen;
+					map[i][j].chessman->type = KING;
+                    map[i][j].chessman->cost = 900;
+                    map[i][j].chessman->move = &move_king;
                 }
 				if (i == 1 || i == 6) {
 					map[i][j].chessman->type = PAWN;
+                    map[i][j].chessman->cost = 10;
                     map[i][j].chessman->move = &move_pawn;
                 }
 				map[i][j].is_empty = false;
@@ -74,7 +80,8 @@ static void which_chessman(int x, int y, t_map **map)
         chessposy += 1;
     for (int startx = 140; startx + 100 < y; startx += 100)
         chessposx += 1;
-    move_chessman(chessposx, chessposy, map);
+    if (move_chessman(chessposx, chessposy, map) && map[0][0].player2 == false)
+        dprintf(2, "where is the IA ????\n");
     DrawChessBoard(map);
 }
 
@@ -93,9 +100,10 @@ static t_map **init_map()
     return map;
 }
 
-int lunch_chessgame()
+int lunch_chessgame(bool player2)
 {
     t_map **map = init_map();
+    map[0][0].player2 = player2;
     int quit = 0;
 
     put_chessman(map);
