@@ -61,6 +61,7 @@ static void simulation(t_map **map, size_t posx, size_t posy, bool isMaximizing,
 {
     t_chessman *stock = malloc(sizeof(t_chessman));
     double ret;
+    int array[8][8];
     for (size_t i = 0; i < 8; i++)
     {
         for (size_t j = 0; j < 8; j++) {
@@ -70,7 +71,21 @@ static void simulation(t_map **map, size_t posx, size_t posy, bool isMaximizing,
                 map[i][j].is_empty = false;
                 map[posx][posy].is_empty = true;
                 map[posx][posy].chessman = NULL;
+                for (size_t i = 0; i < 8; i++)
+                {
+                    for (size_t j = 0; j < 8; j++)
+                    {
+                        array[i][j] = map[i][j].target;
+                    }
+                }
                 ret = minimax(map, depth-1, !isMaximizing);
+                for (size_t i = 0; i < 8; i++)
+                {
+                    for (size_t j = 0; j < 8; j++)
+                    {
+                        map[i][j].target = array[i][j];
+                    }
+                }
                 if (isMaximizing && ret > *bestVal)
                     *bestVal = ret;
                 else if (!isMaximizing && ret < *bestVal)
@@ -127,6 +142,7 @@ void ai_turn_simulate(t_map **map, t_bestmove *bestmove, double *bestval, size_t
 {
     t_chessman *stock;
     double moveval;
+    int array[8][8];
     for (size_t i = 0; i < 8; i++)
     {
         for (size_t j = 0; j < 8; j++) {
@@ -136,17 +152,32 @@ void ai_turn_simulate(t_map **map, t_bestmove *bestmove, double *bestval, size_t
                 map[i][j].is_empty = false;
                 map[posx][posy].is_empty = true;
                 map[posx][posy].chessman = NULL;
+                for (size_t i = 0; i < 8; i++)
+                {
+                    for (size_t j = 0; j < 8; j++)
+                    {
+                        array[i][j] = map[i][j].target;
+                    }
+                }
                 moveval = minimax(map, 2, false);
+                for (size_t i = 0; i < 8; i++)
+                {
+                    for (size_t j = 0; j < 8; j++)
+                    {
+                        map[i][j].target = array[i][j];
+                    }
+                }
                 map[posx][posy].chessman = map[i][j].chessman; //UNDO
                 map[posx][posy].is_empty = false;
                 map[i][j].chessman = stock;
                 if (stock == NULL)
                     map[i][j].is_empty = true;
-                if (moveval >= *bestval) {
+                if (moveval > *bestval) {
                     bestmove->posx = posx;
                     bestmove->posy = posy;
                     bestmove->x = i;
                     bestmove->y = j;
+                    *bestval = moveval;
                 }
             }
         }
@@ -168,6 +199,7 @@ void ai_turn(t_map **map)
                 if (!map[i][j].is_empty && map[i][j].chessman->color == BLACK) {
                         map[i][j].chessman->move(map, i, j);
                         ai_turn_simulate(map, bestmove, &bestval, i, j);
+                        reset_target(map);
                     }
             }
         }
