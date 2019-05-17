@@ -9,7 +9,7 @@ CFLAGS		= -W -Wall -Wextra -g3
 
 CPPFLAGS	= -I./include
 
-SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
+SDL_CFLAGS	= `sdl2-config --cflags --libs` -lSDL2 -lSDL2_image -lSDL2_ttf
 
 CC		= gcc
 
@@ -27,7 +27,7 @@ SRCS		= src/main.c					\
 			  src/game/chessman/pawn.c		\
 			  src/game/chessman/knight.c	\
 			  src/display/display.c			\
-			  src/ai/ai.c
+			#   src/ai/ai.c
 
 OBJS		= $(SRCS:.c=.o)
 

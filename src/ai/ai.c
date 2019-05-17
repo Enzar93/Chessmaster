@@ -20,7 +20,7 @@ for (size_t i = 0; i < 8; i++)
             else
                 brother->value = 0;
         }
-            map[i][j]
+            map[i][j];
     }
     
 }
