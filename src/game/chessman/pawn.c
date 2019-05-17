@@ -19,7 +19,7 @@ void move_pawn(t_map **map, int x, int y)
 
     if (color == BLACK)
     {
-        if (x + 1 < 8 && y - 1 >= 0 && !(map[x + 1][y - 1].is_empty) && map[x + 1][y - 1].chessman->color != color)
+        if (x + 1 < 8 && y - 1 >= 0 && !(map[x + 1][y - 1].is_empty) && map[x + 1][y - 1].chessman->color != color && map[x + 1][y - 1].chessman->type != KING)
         {
             swap(&map[x][y], &map[x + 1][y - 1]);
             map[x][y].is_empty = true;
@@ -28,7 +28,7 @@ void move_pawn(t_map **map, int x, int y)
             map[x][y].is_empty = false;
             swap(&map[x][y], &map[x + 1][y - 1]);
         }
-        if (x + 1 < 8 && y + 1 < 8 && !(map[x + 1][y + 1].is_empty) && map[x + 1][y + 1].chessman->color != color)
+        if (x + 1 < 8 && y + 1 < 8 && !(map[x + 1][y + 1].is_empty) && map[x + 1][y + 1].chessman->color != color && map[x + 1][y + 1].chessman->type != KING)
         {
             swap(&map[x][y], &map[x + 1][y + 1]);
             map[x][y].is_empty = true;
@@ -52,7 +52,7 @@ void move_pawn(t_map **map, int x, int y)
     }
     else
     {
-        if (x - 1 >= 0 && y - 1 >= 0 && !(map[x - 1][y - 1].is_empty) && map[x - 1][y - 1].chessman->color != color)
+        if (x - 1 >= 0 && y - 1 >= 0 && !(map[x - 1][y - 1].is_empty) && map[x - 1][y - 1].chessman->color != color && map[x - 1][y - 1].chessman->type != KING)
         {
         swap(&map[x][y], &map[x - 1][y - 1]);
         map[x][y].is_empty = true;
@@ -61,7 +61,7 @@ void move_pawn(t_map **map, int x, int y)
         map[x][y].is_empty = false;
         swap(&map[x][y], &map[x - 1][y - 1]);
         }
-        if (x - 1 >= 0 && y + 1 < 8 && !(map[x - 1][y + 1].is_empty) && map[x - 1][y + 1].chessman->color != color)
+        if (x - 1 >= 0 && y + 1 < 8 && !(map[x - 1][y + 1].is_empty) && map[x - 1][y + 1].chessman->color != color && map[x - 1][y + 1].chessman->type != KING)
         {
             swap(&map[x][y], &map[x - 1][y + 1]);
             map[x][y].is_empty = true;

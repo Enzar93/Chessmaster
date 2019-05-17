@@ -81,7 +81,7 @@ static void which_chessman(int x, int y, t_map **map)
     for (int startx = 140; startx + 100 < y; startx += 100)
         chessposx += 1;
     if (move_chessman(chessposx, chessposy, map) && map[0][0].player2 == false)
-        dprintf(2, "where is the IA ????\n");
+        ai_turn(map);
     DrawChessBoard(map);
 }
 

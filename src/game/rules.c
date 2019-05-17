@@ -13,18 +13,19 @@ static void display(t_map **map)
 		for (size_t j = 0; j < 8; j++)
 		{
             if (!map[i][j].is_empty)
-			    printf("[%d]", map[i][j].chessman->type);
+			    dprintf(2, "[%d]", map[i][j].chessman->type);
             else
-                printf("[ ]");
+                dprintf(2, "[ ]");
 		}
-        printf("\n");
+        dprintf(2, "\n");
 	}
+    dprintf(2, "\n");
 }
 
 bool check_mat2(t_map **map, int x, int y, enum e_color color)
 {
     //LIGNES
-    display(map);
+    //display(map);
     for(int i = x - 1; i >= 0; i--)
     {
         if (!map[i][y].is_empty && map[i][y].chessman->color == color)
@@ -77,7 +78,6 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
     }
     for (int i = x + 1, j = y - 1; i < 8 && j >= 0; i++, j--)
     {
-        dprintf(2, "x :%d / y : %d\n", i, j);
         if (!map[i][j].is_empty && map[i][j].chessman->color == color)
             break;
         else if (!map[i][j].is_empty && map[i][j].chessman->color != color && (

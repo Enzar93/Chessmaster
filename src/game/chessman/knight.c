@@ -19,7 +19,7 @@ void move_knight(t_map **map, int x, int y)
                 map[x][y].target = GREEN;
             }
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x - 2][y - 1]);
@@ -33,7 +33,7 @@ void move_knight(t_map **map, int x, int y)
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x - 2][y + 1]);
@@ -49,7 +49,7 @@ void move_knight(t_map **map, int x, int y)
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x - 1][y + 2]);
@@ -63,7 +63,7 @@ void move_knight(t_map **map, int x, int y)
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x + 1][y + 2]);
@@ -79,7 +79,7 @@ void move_knight(t_map **map, int x, int y)
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x - 1][y - 2]);
@@ -93,7 +93,7 @@ void move_knight(t_map **map, int x, int y)
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
             else
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x + 1][y - 2]);
@@ -108,8 +108,8 @@ void move_knight(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
-            else 
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+            else
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x + 2][y - 1]);
@@ -122,8 +122,8 @@ void move_knight(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
             if (map[x][y].is_empty)
                 map[x][y].target = GREEN;
-            else 
-                map[x][y].target = (map[x][y].chessman->color != color) ? RED : NONE;
+            else
+                map[x][y].target = (map[x][y].chessman->color != color && map[x][y].chessman->type != KING) ? RED : NONE;
         }
         map[x][y].is_empty = stock;
         swap(&map[x][y], &map[x + 2][y + 1]);
