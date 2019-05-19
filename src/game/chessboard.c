@@ -5,6 +5,9 @@
 #include "chessmaster.h"
 #include "rook.h"
 #include "display.h"
+#include "sound.h"
+
+bool player1 = false;
 
 void reset_target(t_map **map)
 {
@@ -77,27 +80,27 @@ static void put_chessman(t_map **map)
     }
 }
 
-static void which_chessman(int x, int y, t_map **map, bool player1, int count)
+static void which_chessman(int x, int y, t_map **map)
 {
     size_t chessposx = 0;
     size_t chessposy = 0;
-    t_rect player2rect = {.x = 1460, .y = 160, .w = 300, .h = 100};
-    t_rect player1rect = {.x = 1460, .y = 760, .w = 300, .h = 100};
+    SDL_Rect player2rect = {.x = 1460, .y = 160, .w = 300, .h = 100};
+    SDL_Rect player1rect = {.x = 1460, .y = 760, .w = 300, .h = 100};
     char *content = malloc(10);
 
     for (int starty = 560; starty + 100 < x; starty += 100)
         chessposy += 1;
     for (int startx = 140; startx + 100 < y; startx += 100)
         chessposx += 1;
-    if (move_chessman(chessposx, chessposy, map) && map[0][0].player2 == false)
-        dprintf(2, "where is the IA ????\n");
     sprintf(content, "x: %ld y: %ld", chessposx, chessposy);
-    if (count > 0 && (count % 2) == 0)
+    if (move_chessman(chessposx, chessposy, map))
     {
+        player1 = !player1;
         if (player1)
-            draw_text(content, player1rect, 10);
+            draw_text(content, player1rect, 20);
         else
-            draw_text(content, player2rect, 10);
+            draw_text(content, player2rect, 20);
+        audio("src/sound/audio/audio.wav");
     }
     DrawChessBoard(map);
 }
@@ -123,9 +126,7 @@ int lunch_chessgame(bool player2)
     t_map **map = init_map();
     map[0][0].player2 = player2;
     int quit = 0;
-    t_rect rect = {.x = 810, .y = 0, .w = 300, .h = 150};
-    bool player1 = true;
-    size_t count = 1;
+    SDL_Rect rect = {.x = 810, .y = 0, .w = 300, .h = 150};
 
     put_chessman(map);
     init_screen();
@@ -145,12 +146,7 @@ int lunch_chessgame(bool player2)
                  event.window.event == SDL_WINDOWEVENT_CLOSE))
                 quit = true;
             if (event.type == SDL_MOUSEBUTTONDOWN)
-            {
-                which_chessman(event.button.x, event.button.y, map, player1, count);
-                if (count % 2 == 0)
-                    player1 = !player1;
-                count++;
-            }
+                which_chessman(event.button.x, event.button.y, map);
         }
         SDL_Delay(500);
     }

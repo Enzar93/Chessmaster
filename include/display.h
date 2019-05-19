@@ -3,20 +3,10 @@
 
 #include "chessmaster.h"
 
-struct s_rect
-{
-	int x;
-	int y;
-	int w;
-	int h;
-};
-typedef struct s_rect t_rect;
-
-void
-load_images(t_map **map);
+void load_images(t_map **map);
 void init_screen();
 void DrawChessBoard(t_map **map);
 void pawn_transformation(t_chessman *pawn);
-void draw_text(const char *content, t_rect rect, int fontSize);
+void draw_text(const char *content, SDL_Rect, int fontSize);
 
 #endif /* !DISPLAY_H_*/

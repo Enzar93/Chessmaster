@@ -166,48 +166,37 @@ void DrawChessBoard(t_map **map)
 	SDL_UpdateWindowSurface(pWindow);
 }
 
-void draw_text(const char *content, t_rect rect, int fontSize)
+static void attach_texture(TTF_Font *font, const char *content, SDL_Color color, SDL_Rect rect)
 {
-	TTF_Font *font = TTF_OpenFont("src/display/font/ARCADEPI.TTF", fontSize); //this opens a font style and sets a size
+	SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, content, color);
+	SDL_Texture *Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_Rect Message_rect = {.x = rect.x, .y = rect.y, .w = rect.w, .h = rect.h};
+	SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+	SDL_RenderPresent(renderer);
+	SDL_UpdateWindowSurface(pWindow);
+}
+
+void draw_text(const char *content, SDL_Rect rect, int fontSize)
+{
+	TTF_Font *font = TTF_OpenFont("src/display/font/ARCADEPI.TTF", fontSize);
+	SDL_Color White = {.r = 255, .g = 255, .b = 255};
+	const char *fake = "";
 
 	if (!font)
 	{
 		errx(1, "TTF_OpenFont: %s\n", TTF_GetError());
 		return;
 	}
-
-	SDL_Color White = {.r = 255, .g = 255, .b = 255}; // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-
-	SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, content, White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
-
-	SDL_Texture *Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
-
-	//free(surfaceMessage);
-
-	SDL_Rect Message_rect;   //create a rect
-	Message_rect.x = rect.x; //rect->x controls the rect's x coordinate
-	Message_rect.y = rect.y; //rect->y controls the rect's y coordinate
-	Message_rect.w = rect.w; //rect->w controls the width of the rect
-	Message_rect.h = rect.h; //rect->h controls the height of the rect
-
-	//Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
-
-	//Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
-
-	SDL_RenderCopy(renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-
+	SDL_SetRenderDrawColor(renderer, 255, 69, 0, 255);
+	SDL_RenderFillRect(renderer, &rect);
 	SDL_RenderPresent(renderer);
-
-	SDL_UpdateWindowSurface(pWindow);
-
-	//Don't forget too free your surface and texture
+	attach_texture(font, content, White, rect);
 }
 
 void init_screen()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) == -1)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
 		errx(1, "Could not initialize SDL: %s.\n", SDL_GetError());
-
 	if (TTF_Init() == -1)
 		errx(1, "TTF_Init: %s\n", TTF_GetError());
 
