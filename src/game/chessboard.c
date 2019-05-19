@@ -99,7 +99,10 @@ static void which_chessman(int x, int y, t_map **map)
         if (player1)
             draw_text(content, player1rect, 20);
         else
+        {
+            ai_turn(map);
             draw_text(content, player2rect, 20);
+        }
         audio("src/sound/audio/audio.wav");
     }
     DrawChessBoard(map);

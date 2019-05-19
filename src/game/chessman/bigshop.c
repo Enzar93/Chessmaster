@@ -19,7 +19,7 @@ void move_bigshop(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
 			if (!map[x][y].is_empty)
 			{
-				if (map[x][y].chessman->color != color)
+				if (map[x][y].chessman->color != color && map[x][y].chessman->type != KING)
 					map[x][y].target = RED;
 				stop = true;
 			}
@@ -39,7 +39,7 @@ void move_bigshop(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
 			if (!map[x][y].is_empty)
 			{
-				if (map[x][y].chessman->color != color)
+				if (map[x][y].chessman->color != color && map[x][y].chessman->type != KING)
 					map[x][y].target = RED;
 				stop = true;
 			}
@@ -59,7 +59,7 @@ void move_bigshop(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
 			if (!map[x][y].is_empty)
 			{
-				if (map[x][y].chessman->color != color)
+				if (map[x][y].chessman->color != color && map[x][y].chessman->type != KING)
 					map[x][y].target = RED;
 				stop = true;
 			}
@@ -79,7 +79,7 @@ void move_bigshop(t_map **map, int x, int y)
             map[x][y].is_empty = stock;
 			if (!map[x][y].is_empty)
 			{
-				if (map[x][y].chessman->color != color)
+				if (map[x][y].chessman->color != color && map[x][y].chessman->type != KING)
 					map[x][y].target = RED;
 				stop = true;
 			}
