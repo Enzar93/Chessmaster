@@ -100,7 +100,8 @@ static void which_chessman(int x, int y, t_map **map)
             draw_text(content, player1rect, 20);
         else
         {
-            ai_turn(map);
+            if (!map[0][0].player2)
+                ai_turn(map);
             draw_text(content, player2rect, 20);
         }
         audio("src/sound/audio/audio.wav");

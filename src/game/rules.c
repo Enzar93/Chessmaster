@@ -33,6 +33,10 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][y].is_empty && map[i][y].chessman->color != color && (map[i][y].chessman->type == ROOK || 
         map[i][y].chessman->type == QUEEN || map[i][y].chessman->type == KING))
             return true;
+        else if (map[x][i].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = x + 1; i < 8; i++)
     {
@@ -41,33 +45,49 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][y].is_empty && map[i][y].chessman->color != color && (map[i][y].chessman->type == ROOK || 
         map[i][y].chessman->type == QUEEN || map[i][y].chessman->type == KING))
             return true;
+        else if (map[x][i].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = y - 1; i < 8; i++)
     {
         if (!map[x][i].is_empty && map[x][i].chessman->color == color)
             break;
-        else if (!map[x][i].is_empty && map[x][i].chessman->color != color && (map[x][i].chessman->type == ROOK || 
+        else if (!map[x][i].is_empty && map[x][i].chessman->color != color && (map[x][i].chessman->type == ROOK ||
         map[x][i].chessman->type == QUEEN || map[x][i].chessman->type == KING))
             return true;
+        else if (map[x][i].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = y - 1; i >= 0; i--)
     {
         if (!map[x][i].is_empty && map[x][i].chessman->color == color)
             break;
-        else if (!map[x][i].is_empty && map[x][i].chessman->color != color && (map[x][i].chessman->type == ROOK || 
+        else if (!map[x][i].is_empty && map[x][i].chessman->color != color && (map[x][i].chessman->type == ROOK ||
         map[x][i].chessman->type == QUEEN || map[x][i].chessman->type == KING))
             return true;
+        else if (map[x][i].is_empty)
+            continue;
+        else
+            break;
     }
 
     // DIAGONAL
+    if (color == BLACK) {
     if (x + 1 < 8 && y + 1 < 8 && !map[x + 1][y + 1].is_empty && map[x + 1][y + 1].chessman->color != color && map[x + 1][y + 1].chessman->type == PAWN)
-        return true;
-    if (x - 1 >= 0 && y + 1 < 8 && !map[x - 1][y + 1].is_empty && map[x - 1][y + 1].chessman->color != color && map[x - 1][y + 1].chessman->type == PAWN)
         return true;
     if (x + 1 < 8 && y - 1 >= 0 && !map[x + 1][y - 1].is_empty && map[x + 1][y - 1].chessman->color != color && map[x + 1][y - 1].chessman->type == PAWN)
         return true;
-    if (x - 1 >= 0 && y - 1 >= 0 && !map[x - 1][y - 1].is_empty && map[x - 1][y - 1].chessman->color != color && map[x - 1][y - 1].chessman->type == PAWN)
-        return true;
+    }
+    else {
+        if (x - 1 >= 0 && y + 1 < 8 && !map[x - 1][y + 1].is_empty && map[x - 1][y + 1].chessman->color != color && map[x - 1][y + 1].chessman->type == PAWN)
+            return true;
+        if (x - 1 >= 0 && y - 1 >= 0 && !map[x - 1][y - 1].is_empty && map[x - 1][y - 1].chessman->color != color && map[x - 1][y - 1].chessman->type == PAWN)
+            return true;
+    }
     for (int i = x + 1, j = y + 1; i < 8 && j < 8; i++, j++)
     {
         if (!map[i][j].is_empty && map[i][j].chessman->color == color)
@@ -75,6 +95,10 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][j].is_empty && map[i][j].chessman->color != color && (
         map[i][j].chessman->type == QUEEN || map[i][j].chessman->type == KING || map[i][j].chessman->type == BIGSHOP))
             return true;
+        else if (map[i][j].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = x + 1, j = y - 1; i < 8 && j >= 0; i++, j--)
     {
@@ -83,6 +107,10 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][j].is_empty && map[i][j].chessman->color != color && (
             map[i][j].chessman->type == QUEEN || map[i][j].chessman->type == KING || map[i][j].chessman->type == BIGSHOP))
             return true;
+        else if (map[i][j].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = x - 1, j = y + 1; i >= 0 && j < 8; i--, j++)
     {
@@ -91,6 +119,10 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][j].is_empty && map[i][j].chessman->color != color && (
         map[i][j].chessman->type == QUEEN || map[i][j].chessman->type == KING || map[i][j].chessman->type == BIGSHOP))
             return true;
+        else if (map[i][j].is_empty)
+            continue;
+        else
+            break;
     }
     for (int i = x - 1, j = y - 1; i >= 0 && j >= 0; i--, j--)
     {
@@ -99,6 +131,10 @@ bool check_mat2(t_map **map, int x, int y, enum e_color color)
         else if (!map[i][j].is_empty && map[i][j].chessman->color != color && (
         map[i][j].chessman->type == QUEEN || map[i][j].chessman->type == KING || map[i][j].chessman->type == BIGSHOP))
             return true;
+        else if (map[i][j].is_empty)
+            continue;
+        else
+            break;
     }
     return false;
 }
@@ -138,7 +174,7 @@ bool move_chessman(int chessposx, int chessposy, t_map **map)
         DrawChessBoard(map);
         return true;
     }
-    else if (!map[chessposx][chessposy].is_empty) { //&& map[chessposx][chessposy].chessman->color == BLACK) {
+    else if (!map[chessposx][chessposy].is_empty) {
         reset_target(map);
         map[chessposx][chessposy].chessman->move(map, chessposx, chessposy);
         old_chessposx = chessposx;

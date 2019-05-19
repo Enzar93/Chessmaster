@@ -12,6 +12,8 @@ void move_bigshop(t_map **map, int x, int y)
 
 	for (int i = x + 1, j = y + 1; j < 8 && i < 8 && stop == false; j++, i++)
 	{
+		if (!map[i][j].is_empty && map[i][j].chessman->color == map[x][y].chessman->color)
+			break;
 		swap(&map[x][y], &map[i][j]);
 		stock = map[x][y].is_empty;
 		map[x][y].is_empty = true;
@@ -32,6 +34,8 @@ void move_bigshop(t_map **map, int x, int y)
 	stop = false;
 	for (int i = x - 1, j = y + 1; j < 8 && i >= 0 && stop == false; j++, i--)
 	{
+		if (!map[i][j].is_empty && map[i][j].chessman->color == map[x][y].chessman->color)
+			break;
 		swap(&map[x][y], &map[i][j]);
 		stock = map[x][y].is_empty;
 		map[x][y].is_empty = true;
@@ -52,6 +56,8 @@ void move_bigshop(t_map **map, int x, int y)
 	stop = false;
 	for (int i = x + 1, j = y - 1; j >= 0 && i < 8 && stop == false; j--, i++)
 	{
+		if (!map[i][j].is_empty && map[i][j].chessman->color == map[x][y].chessman->color)
+			break;
 		swap(&map[x][y], &map[i][j]);
 		stock = map[x][y].is_empty;
 		map[x][y].is_empty = true;
@@ -72,6 +78,8 @@ void move_bigshop(t_map **map, int x, int y)
 	stop = false;
 	for (int i = x - 1, j = y - 1; j >= 0 && i >= 0 && stop == false; j--, i--)
 	{
+		if (!map[i][j].is_empty && map[i][j].chessman->color == map[x][y].chessman->color)
+			break;
 		swap(&map[x][y], &map[i][j]);
 		stock = map[x][y].is_empty;
 		map[x][y].is_empty = true;
