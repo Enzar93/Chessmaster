@@ -6,26 +6,9 @@
 #include "rook.h"
 #include "display.h"
 
-static void display(t_map **map)
-{
-	for (size_t i = 0; i < 8; i++)
-	{
-		for (size_t j = 0; j < 8; j++)
-		{
-            if (!map[i][j].is_empty)
-			    dprintf(2, "[%d]", map[i][j].chessman->type);
-            else
-                dprintf(2, "[ ]");
-		}
-        dprintf(2, "\n");
-	}
-    dprintf(2, "\n");
-}
 
 bool check_mat2(t_map **map, int x, int y, enum e_color color)
 {
-    //LIGNES
-    //display(map);
     for(int i = x - 1; i >= 0; i--)
     {
         if (!map[i][y].is_empty && map[i][y].chessman->color == color)

@@ -2,6 +2,7 @@
 #include <err.h>
 #include <stdio.h>
 #include "chessmaster.h"
+#include "rook.h"
 
 
 void move_bigshop(t_map **map, int x, int y)

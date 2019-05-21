@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <err.h>
 #include <stdio.h>
+#include "rook.h"
 #include "chessmaster.h"
 
 void move_king(t_map **map, int x, int y)

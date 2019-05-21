@@ -6,19 +6,9 @@
 #include "rook.h"
 #include "display.h"
 #include "sound.h"
+#include "ai.h"
 
 bool player1 = false;
-
-void reset_target(t_map **map)
-{
-    for (size_t i = 0; i < 8; i++)
-    {
-        for (size_t j = 0; j < 8; j++)
-        {
-            map[i][j].target = NONE;
-        }
-    }
-}
 
 static void put_chessman(t_map **map)
 {
@@ -84,8 +74,8 @@ static void which_chessman(int x, int y, t_map **map)
 {
     size_t chessposx = 0;
     size_t chessposy = 0;
-    SDL_Rect player2rect = {.x = 1460, .y = 160, .w = 300, .h = 100};
     SDL_Rect player1rect = {.x = 1460, .y = 760, .w = 300, .h = 100};
+    SDL_Rect player2rect = {.x = 1460, .y = 160, .w = 300, .h = 100};
     char *content = malloc(10);
 
     for (int starty = 560; starty + 100 < x; starty += 100)
@@ -96,15 +86,19 @@ static void which_chessman(int x, int y, t_map **map)
     if (move_chessman(chessposx, chessposy, map))
     {
         player1 = !player1;
-        if (player1)
+        if (player1 || !map[0][0].player2) {
             draw_text(content, player1rect, 20);
+            audio("src/sound/audio/audio.wav");
+            if (!map[0][0].player2) {
+                ai_turn(map);
+                audio("src/sound/audio/audio.wav");
+            }
+        }
         else
         {
-            if (!map[0][0].player2)
-                ai_turn(map);
             draw_text(content, player2rect, 20);
+            audio("src/sound/audio/audio.wav");
         }
-        audio("src/sound/audio/audio.wav");
     }
     DrawChessBoard(map);
 }

@@ -3,36 +3,9 @@
 #include <stdio.h>
 #include <math.h>
 #include "chessmaster.h"
+#include "display.h"
 #include "rook.h"
 #include "ai.h"
-
-static void display(t_map **map)
-{
-	for (size_t i = 0; i < 8; i++)
-	{
-		for (size_t j = 0; j < 8; j++)
-		{
-            if (!map[i][j].is_empty)
-			    printf("[%d]", map[i][j].chessman->type);
-            else
-                printf("[ ]");
-		}
-        printf("\n");
-	}
-}
-
-static void display_target(t_map **map)
-{
-	for (size_t i = 0; i < 8; i++)
-	{
-		for (size_t j = 0; j < 8; j++)
-		{
-            printf("[%d]", map[i][j].target);
-		}
-        printf("\n");
-	}
-    printf("\n\n");
-}
 
 static double evaluate(t_map **map)
 {
@@ -66,7 +39,10 @@ static void simulation(t_map **map, size_t posx, size_t posy, bool isMaximizing,
     {
         for (size_t j = 0; j < 8; j++) {
             if (map[i][j].target == GREEN || map[i][j].target == RED) { //SIMULATING MOVE
-                stock = map[i][j].chessman;
+                if (!map[i][j].is_empty)
+                    stock = map[i][j].chessman;
+                else
+                    stock = NULL;
                 map[i][j].chessman = map[posx][posy].chessman;
                 map[i][j].is_empty = false;
                 map[posx][posy].is_empty = true;
@@ -147,7 +123,10 @@ void ai_turn_simulate(t_map **map, t_bestmove *bestmove, double *bestval, size_t
     {
         for (size_t j = 0; j < 8; j++) {
             if (map[i][j].target == GREEN || map[i][j].target == RED) { //SIMULATING MOVE
-                stock = map[i][j].chessman;
+                 if (!map[i][j].is_empty)
+                    stock = map[i][j].chessman;
+                else
+                    stock = NULL;
                 map[i][j].chessman = map[posx][posy].chessman;
                 map[i][j].is_empty = false;
                 map[posx][posy].is_empty = true;
@@ -159,7 +138,7 @@ void ai_turn_simulate(t_map **map, t_bestmove *bestmove, double *bestval, size_t
                         array[i][j] = map[i][j].target;
                     }
                 }
-                moveval = minimax(map, 2, false);
+                moveval = minimax(map, 3, false);
                 for (size_t i = 0; i < 8; i++)
                 {
                     for (size_t j = 0; j < 8; j++)
@@ -187,7 +166,9 @@ void ai_turn_simulate(t_map **map, t_bestmove *bestmove, double *bestval, size_t
 void ai_turn(t_map **map)
 {
     double bestval = -INFINITY;
+    SDL_Rect IArect = {.x = 1460, .y = 160, .w = 300, .h = 100};
     t_bestmove *bestmove = malloc(sizeof(t_bestmove));
+    char *content = malloc(10);
     bestmove->x = -1;
     bestmove->y = -1;
     bestmove->posx = -1;
@@ -207,4 +188,8 @@ void ai_turn(t_map **map)
     map[bestmove->x][bestmove->y].is_empty = false;
     map[bestmove->posx][bestmove->posy].is_empty = true;
     map[bestmove->posx][bestmove->posy].chessman = NULL;
+    sprintf(content, "x: %d y: %d", bestmove->x, bestmove->y);
+    draw_text(content, IArect, 20);
+    reset_target(map);
+    DrawChessBoard(map);
 }

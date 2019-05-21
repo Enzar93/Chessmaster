@@ -13,6 +13,17 @@ SDL_Renderer *renderer;
 SDL_Surface *surface;
 SDL_Surface *promotion;
 
+void reset_target(t_map **map)
+{
+    for (size_t i = 0; i < 8; i++)
+    {
+        for (size_t j = 0; j < 8; j++)
+        {
+            map[i][j].target = NONE;
+        }
+    }
+}
+
 void load_images(t_map **map)
 {
 	SDL_Surface *black_king = IMG_Load("src/display/img/black_queen.png");
@@ -180,8 +191,6 @@ void draw_text(const char *content, SDL_Rect rect, int fontSize)
 {
 	TTF_Font *font = TTF_OpenFont("src/display/font/ARCADEPI.TTF", fontSize);
 	SDL_Color White = {.r = 255, .g = 255, .b = 255};
-	const char *fake = "";
-
 	if (!font)
 	{
 		errx(1, "TTF_OpenFont: %s\n", TTF_GetError());
