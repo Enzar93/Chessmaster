@@ -7,8 +7,7 @@ $ make
 Pour démarrer le jeu en mode 2 joueurs:
 $ ./chessmaster 2
 
-Pour démarrer le jeu en mode 2 joueurs:
-$ ./chessmaster
+Pour démarrer le jeu en mode 1 joueur:
 
 Les images du jeu se trouvent dans le dossier suivant :
 ./src/game/chessman/
